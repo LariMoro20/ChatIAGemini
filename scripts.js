@@ -1,6 +1,6 @@
 let apiKey = "";
 let isTyping = false;
-
+let activeAgent = "default";
 // Default agents
 const agentsList = {
     default: [
@@ -45,7 +45,6 @@ const agentsList = {
     ],
 };
 
-let activeAgent = "default";
 
 let histories = {
     default: [...agentsList.default],
@@ -272,6 +271,10 @@ async function sendMessage() {
             role: "model",
             parts: [{ text: assistantMessage }],
         });
+        const el = document.getElementById("initialMessage");
+        if (el) {
+            el.remove();
+        }
     } catch (error) {
         removeTypingIndicator();
         console.error("Error:", error);
@@ -303,7 +306,7 @@ async function sendMessage() {
         document.getElementById("sendBtn").disabled = false;
         document.getElementById("agentSelect").disabled = false;
         messageInput.disabled = false;
-        messageInput.focus();
+        // messageInput.focus();
     }
 }
 
