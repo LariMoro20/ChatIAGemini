@@ -288,7 +288,7 @@ ul {
   margin-bottom: 5px;
 }
 
-#agentSelect {
+.agent-selector > select {
   background: #e8f0fe;
   border: none;
   padding: 10px 10px;
