@@ -45,7 +45,6 @@ const agentsList = {
     ],
 };
 
-
 let histories = {
     default: [...agentsList.default],
     quizmaster: [...agentsList.quizmaster],
@@ -68,6 +67,8 @@ document.getElementById("messageInput").addEventListener("keydown", function (e)
         }
     }
 });
+
+// Change agent function
 function changeAgent(valor) {
     if (agentsList[valor]) {
         activeAgent = valor;
@@ -77,6 +78,8 @@ function changeAgent(valor) {
         addMessage("system", `⚠️ Agente "${valor}" não encontrado. Usando default.`);
     }
 }
+
+// Set ap key for requests
 function saveApiKey() {
     const input = document.getElementById("apiKeyInput");
     const key = input.value.trim();
@@ -97,7 +100,6 @@ function saveApiKey() {
     document.getElementById("sendBtn").disabled = false;
     document.getElementById("agentSelect").disabled = false;
 
-    // Clear the input for security
     input.value = "";
 
     addMessage(
@@ -108,6 +110,7 @@ function saveApiKey() {
     document.getElementById("apiKeySection").style.display = "none";
 }
 
+// Parse Gemini response
 function parseMarkdown(text) {
     return (
         text
@@ -140,6 +143,7 @@ function wrapListItems(html) {
         .replace(/<\/ul>\s*<ul>/g, "");
 }
 
+// Add messages to chat
 function addMessage(type, content) {
     const messagesContainer = document.getElementById("chatMessages");
     const messageDiv = document.createElement("div");
@@ -157,6 +161,7 @@ function addMessage(type, content) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
+// Typing Indicator show/hide
 function showTypingIndicator() {
     const messagesContainer = document.getElementById("chatMessages");
     const typingDiv = document.createElement("div");
@@ -181,6 +186,7 @@ function removeTypingIndicator() {
     }
 }
 
+// Send message to Gemini
 async function sendMessage() {
     const messageInput = document.getElementById("messageInput");
     const message = messageInput.value.trim();
@@ -192,7 +198,7 @@ async function sendMessage() {
         return;
     }
 
-    // Detecta se o user pediu outro agente
+    // Detects if the user requested a different agent through chat
     if (message.toLowerCase().startsWith("/agente ")) {
         const nomeAgente = message.replace("/agente ", "").trim();
         if (agentsList[nomeAgente]) {
@@ -206,25 +212,20 @@ async function sendMessage() {
         return;
     }
 
-    // Add user message
     addMessage("user", message);
     histories[activeAgent].push({
         role: "user",
         parts: [{ text: message }],
     });
 
-    // Clear input
     messageInput.value = "";
     messageInput.style.height = "auto";
 
-    // Disable input while processing
     isTyping = true;
     document.getElementById("sendBtn").disabled = true;
     document.getElementById("agentSelect").disabled = true;
-
     messageInput.disabled = true;
 
-    // Show typing indicator
     showTypingIndicator();
 
     try {
@@ -301,7 +302,6 @@ async function sendMessage() {
 
         addMessage("system", errorMessage);
     } finally {
-        // Re-enable input
         isTyping = false;
         document.getElementById("sendBtn").disabled = false;
         document.getElementById("agentSelect").disabled = false;
