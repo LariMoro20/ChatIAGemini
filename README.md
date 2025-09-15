@@ -159,6 +159,8 @@ https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generat
 
 ## 📝 Licença
 
-Este projeto é **open-source** e pode ser usado e modificado livremente.
+Este projeto é **open-source** e pode ser usado e modificado livremente segundo a licença. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+Made with :heart: by [Larissa Santos](https://larissa-santos.vercel.app/)
 
 ---
